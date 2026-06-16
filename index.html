@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「はたらく」が「ワクワク」になる未来へ</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', sans-serif; background: #f2faf0; color: #173404; line-height: 1.7; }
+
+  /* ヒーロー */
+  .hero { background-color: #27500A; padding: 60px 24px; text-align: center; }
+  .hero-emoji { font-size: 56px; display: block; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(28px, 6vw, 52px); font-weight: 900; color: #EAF3DE; line-height: 1.3; margin-bottom: 12px; }
+  .hero h1 span { color: #97C459; }
+  .hero-sub { font-size: 24px; color: #C0DD97; font-weight: 700; margin-bottom: 16px; }
+  .hero-authors { display: inline-block; background: rgba(255,255,255,0.15); border-radius: 99px; padding: 8px 24px; font-size: 15px; color: #EAF3DE; font-weight: 700; }
+
+  /* セクション共通 */
+  .section { padding: 56px 24px; max-width: 900px; margin: 0 auto; }
+  .section-title { font-size: 26px; font-weight: 900; color: #3B6D11; margin-bottom: 8px; }
+  .section-lead { font-size: 16px; color: #444441; margin-bottom: 32px; }
+
+  /* 課題カード */
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .problem-card { background: #fff; border-radius: 16px; padding: 24px 16px; text-align: center; border: 2px solid #C0DD97; }
+  .problem-emoji { font-size: 40px; display: block; margin-bottom: 12px; }
+  .problem-label { display: inline-block; background: #EAF3DE; color: #3B6D11; font-size: 16px; font-weight: 700; padding: 3px 12px; border-radius: 99px; margin-bottom: 8px; }
+  .problem-name { font-weight: 900; font-size: 20px; color: #27500A; margin-bottom: 6px; }
+  .problem-desc { font-size: 16px; color: #5F5E5A; }
+  .problem-cta { text-align: center; margin-top: 24px; padding: 20px; background: #EAF3DE; border-radius: 16px; border: 2px dashed #639922; }
+  .problem-cta p { font-size: 18px; font-weight: 900; color: #3B6D11; }
+
+  /* ミッション */
+  .mission-bg { background-color: #085041; padding: 56px 24px; }
+  .mission-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .mission-bg .section-title { color: #97C459; }
+  .mission-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .mission-card { background: rgba(255,255,255,0.1); border-radius: 16px; padding: 28px 16px; border: 2px solid rgba(255,255,255,0.2); }
+  .mission-card .big-emoji { font-size: 48px; display: block; margin-bottom: 12px; }
+  .mission-card p { font-size: 20px; color: #EAF3DE; font-weight: 700; line-height: 1.6; }
+  .mission-note { margin-top: 24px; background: rgba(255,255,255,0.12); border-radius: 16px; padding: 24px; font-size: 20px; color: #EAF3DE; line-height: 1.9; }
+  .mission-note strong { color: #97C459; }
+
+  /* アクション */
+  .action-bg { background-color: #EAF3DE; padding: 56px 24px; }
+  .action-inner { max-width: 900px; margin: 0 auto; }
+  .action-bg .section-title { color: #3B6D11; }
+  .steps { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+  .step { display: flex; align-items: flex-start; gap: 16px; background: #fff; border-radius: 16px; padding: 20px 24px; border-left: 5px solid #3B6D11; }
+  .step-num { background: #3B6D11; color: #EAF3DE; font-weight: 900; font-size: 18px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step h3 { font-size: 18px; font-weight: 900; color: #27500A; margin-bottom: 4px; }
+  .step p { font-size: 18px; color: #5F5E5A; }
+
+  /* ロードマップ */
+  .roadmap-bg { background-color: #f2faf0; padding: 56px 24px; }
+  .roadmap-inner { max-width: 900px; margin: 0 auto; }
+  .timeline { position: relative; padding-left: 40px; margin-top: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 18px; top: 0; bottom: 0; width: 4px; background: #639922; border-radius: 4px; }
+  .tl-item { position: relative; margin-bottom: 32px; }
+  .tl-dot { position: absolute; left: -33px; top: 4px; width: 22px; height: 22px; border-radius: 50%; background: #3B6D11; border: 3px solid #f2faf0; outline: 3px solid #3B6D11; }
+  .tl-year { font-size: 16px; font-weight: 900; color: #3B6D11; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tl-item h3 { font-size: 20px; font-weight: 900; color: #173404; margin: 4px 0; }
+  .tl-item p { font-size: 18px; color: #5F5E5A; }
+
+  /* パーティー */
+  .party-bg { background-color: #173404; padding: 56px 24px; }
+  .party-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .party-bg .section-title { color: #97C459; }
+  .party-bg .section-lead { color: rgba(192,221,151,0.85); }
+  .roles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+  .role-card { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 20px 12px; }
+  .role-emoji { font-size: 32px; display: block; margin-bottom: 8px; }
+  .role-name { font-size: 20px; font-weight: 900; color: #EAF3DE; margin-bottom: 4px; }
+  .role-person { font-size: 16px; color: #97C459; }
+  .role-card.open { border-color: #639922; border-style: dashed; }
+  .role-card.open .role-name { color: #C0DD97; }
+  .join-btn { display: inline-block; margin-top: 32px; background: #3B6D11; color: #EAF3DE; font-weight: 900; font-size: 17px; padding: 16px 40px; border-radius: 99px; text-decoration: none; font-family: inherit; }
+
+  /* フッター */
+  .footer { background: #0D2206; color: rgba(192,221,151,0.8); text-align: center; padding: 32px 16px; font-size: 14px; }
+  .footer strong { color: #97C459; display: block; font-size: 18px; margin-bottom: 8px; }
+
+  @media (max-width: 600px) {
+    .mission-cards { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヒーロー -->
+<div class="hero">
+  <span class="hero-emoji">🌿</span>
+  <h1>「はたらく」が<span>「ワクワク」</span>になる未来へ</h1>
+  <p class="hero-sub">✨ とりあえずやってみようや 分科会 ✨</p>
+  <div class="hero-authors">末岡 良章 × 川野いずみ</div>
+</div>
+
+<!-- 課題セクション -->
+<div style="background:#f2faf0; padding: 0 0 8px;">
+  <div class="section">
+    <div class="section-title">😢 いまの現場、こんな人いない？</div>
+    <p class="section-lead">心理的安全性・自己肯定感・モチベーション… いろいろ届けてるけど、まだまだ「助けて〜」って人はいっぱいいる。</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="problem-emoji">😞</span>
+        <span class="problem-label">ミスマッチ</span>
+        <div class="problem-name">Aさん</div>
+        <p class="problem-desc">やりたいことと業務が合わなくて、つまらそうにしている…</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-emoji">😤</span>
+        <span class="problem-label">人間関係</span>
+        <div class="problem-name">Bさん</div>
+        <p class="problem-desc">相手に合わせて、我慢し続け、へとへとに疲れている…</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-emoji">😓</span>
+        <span class="problem-label">自信喪失</span>
+        <div class="problem-name">Cさん</div>
+        <p class="problem-desc">けっこう仕事はできているのに、自信が持てない…</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-emoji">😶</span>
+        <span class="problem-label">将来不安</span>
+        <div class="problem-name">Dさん</div>
+        <p class="problem-desc">明るい未来が見えなくて、茫然としている…</p>
+      </div>
+    </div>
+    <div class="problem-cta">
+      <p>🌱 まだ多くの人が助けを求めている。<br>
+       私たちに、できることはいっぱいあるはずだ！それは何だ！？</p>
+    </div>
+  </div>
+</div>
+
+<!-- ミッション -->
+<div class="mission-bg">
+  <div class="mission-inner">
+    <div class="section-title">🌟 わたしたちの野望</div>
+    <div class="mission-cards">
+      <div class="mission-card">
+        <span class="big-emoji">👶</span>
+        <p>未来を担う子どもたちに貢献したい</p>
+      </div>
+      <div class="mission-card">
+        <span class="big-emoji">🤝</span>
+        <p>目の前の辛そうな人を助けたい</p>
+      </div>
+    </div>
+    <div class="mission-note">
+      カギは <strong>「自己肯定感」</strong><br>
+      子どもの頃から？ 今困ってる大人は？<br>
+      文献・インタビュー・アンケートをふまえて <strong>現場検証</strong> していく！
+    </div>
+  </div>
+</div>
+
+<!-- アクション -->
+<div class="action-bg">
+  <div class="action-inner">
+    <div class="section-title">🔬 とりあえず、やってみること</div>
+    <p class="section-lead">現場でワイワイ！チャレンジネタでも検証ネタでも何でもOK。とにかく現場に行って、喋って、踊って、笑う！そんな分科会です。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>📚 文献確認</h3>
+          <p>どんなことが分かってるのかな？自己肯定感に関する研究を調べて、現場に還元できることを探す</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>🎤 インタビュー</h3>
+          <p>いろんな人の話を聞いてみる。子どもから大人まで、現場の声を集めて取り組みのヒントを得る</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>📊 アンケート</h3>
+          <p>企業や学校でアンケートをとってみる。データから見えてくる「何か」を探しあてる</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ロードマップ -->
+<div class="roadmap-bg">
+  <div class="roadmap-inner">
+    <div class="section-title">🗺️ 学校教育に爪跡を残す！</div>
+    <p class="section-lead">3年間で、子どもたちに何かを還元したい。</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1年後</div>
+        <h3>🌱 根っこを見つける</h3>
+        <p>ヒアリングやアンケート、そして実践で現場検証を行い、自己肯定感の根っこを掴む</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#639922; outline-color:#639922;"></div>
+        <div class="tl-year">2年後</div>
+        <h3>🌿 続ける、広げる</h3>
+        <p>研究結果をもとに、仲間を増やして取り組みを横に広げる！</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#97C459; outline-color:#97C459;"></div>
+        <div class="tl-year">3年後</div>
+        <h3>🏫 学校・教育委員会へ</h3>
+        <p>研究結果を学校教育に！いろいろなアプローチで学校教育に爪跡を残す！</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- パーティー -->
+<div class="party-bg">
+  <div class="party-inner">
+    <div class="section-title">⚔️ パーティー募集中！</div>
+    <p class="section-lead">このクエストを一緒に攻略する仲間を探しています。あなたのジョブは何？</p>
+    <div class="roles-grid">
+      <div class="role-card">
+        <span class="role-emoji">🗡️</span>
+        <div class="role-name">勇者</div>
+        <div class="role-person">まとめ役</div>
+      </div>
+      <div class="role-card">
+        <span class="role-emoji">🛡️</span>
+        <div class="role-name">戦士</div>
+        <div class="role-person">体力勝負！</div>
+      </div>
+      <div class="role-card">
+        <span class="role-emoji">🔮</span>
+        <div class="role-name">魔法使い</div>
+        <div class="role-person">データサイエンティスト</div>
+      </div>
+      <div class="role-card">
+        <span class="role-emoji">✨</span>
+        <div class="role-name">僧侶</div>
+        <div class="role-person">癒しを下さい！</div>
+      </div>
+      <div class="role-card">
+        <span class="role-emoji">📖</span>
+        <div class="role-name">賢者</div>
+        <div class="role-person">文献・論文調査</div>
+      </div>
+      <div class="role-card open">
+        <span class="role-emoji">🎤</span>
+        <div class="role-name">遊び人</div>
+        <div class="role-person">現場で一緒に戦う仲間</div>
+      </div>
+      <div class="role-card">
+        <span class="role-emoji">💃</span>
+        <div class="role-name">踊り子</div>
+        <div class="role-person">現場で一緒に戦う仲間</div>
+      </div>
+      <div class="role-card">
+        <span class="role-emoji">🔭</span>
+        <div class="role-name">占い師</div>
+        <div class="role-person">アンケートの設問を作る</div>
+      </div>
+    </div>
+    <div>
+      <a href="mailto:" class="join-btn">🙋 仲間になりたい！</a>
+    </div>
+  </div>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  <strong>「はたらく」が「ワクワク」になる未来へ</strong>
+  とりあえずやってみようや 分科会 ／ 末岡 良章 × 川野いずみ
+</div>
+
+</body>
+</html>
