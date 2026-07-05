@@ -103,6 +103,46 @@
 </head>
 <body>
 
+<!-- パスワードロック画面 -->
+<div id="lockScreen" style="position:fixed; inset:0; background:#27500A; display:flex; align-items:center; justify-content:center; z-index:9999; padding:24px;">
+  <div style="background:#fff; border-radius:20px; padding:40px 32px; max-width:360px; width:100%; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
+    <span style="font-size:48px; display:block; margin-bottom:16px;">🌿</span>
+    <h2 style="font-size:18px; font-weight:900; color:#27500A; margin-bottom:8px; font-family:'Hiragino Maru Gothic ProN','BIZ UDPGothic',sans-serif;">合言葉を入力してください</h2>
+    <p style="font-size:13px; color:#888; margin-bottom:20px; font-family:'Hiragino Maru Gothic ProN','BIZ UDPGothic',sans-serif;">「はたらく」が「ワクワク」になる未来へ</p>
+    <input type="password" id="pwInput" placeholder="パスワード" style="width:100%; padding:12px 16px; border:2px solid #C0DD97; border-radius:10px; font-size:15px; margin-bottom:12px; box-sizing:border-box; font-family:inherit;">
+    <button onclick="checkPw()" style="width:100%; padding:12px; background:#3B6D11; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:900; cursor:pointer; font-family:'Hiragino Maru Gothic ProN','BIZ UDPGothic',sans-serif;">入室する</button>
+    <p id="pwError" style="display:none; color:#e74c3c; font-size:13px; margin-top:10px; font-family:'Hiragino Maru Gothic ProN','BIZ UDPGothic',sans-serif;">合言葉が違うようです…もう一度！</p>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var CORRECT_PW = "letsgo";
+    if (sessionStorage.getItem("waw_unlocked") === "true") {
+      document.getElementById("lockScreen").style.display = "none";
+    }
+  })();
+
+  function checkPw() {
+    var input = document.getElementById("pwInput").value;
+    if (input === "letsgo") {
+      sessionStorage.setItem("waw_unlocked", "true");
+      document.getElementById("lockScreen").style.display = "none";
+    } else {
+      document.getElementById("pwError").style.display = "block";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var input = document.getElementById("pwInput");
+    if (input) {
+      input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") checkPw();
+      });
+    }
+  });
+</script>
+
 <!-- ヒーロー -->
 <div class="hero">
   <span class="hero-emoji">🌿</span>
@@ -178,10 +218,20 @@
   <div class="question-inner">
     <div class="question-box">
       <h2>🔍 「やればできる」の根っこはどこにある？</h2>
-      <p style="font-size:16px; color:#3B6D11; font-weight:700; margin-bottom:4px;">そのカギは <strong>「自己肯定感」</strong> にあるはず。</p>
-      <p style="font-size:16px; color:#5F5E5A; margin-bottom:8px;">子どもの頃にどんなことがあったのかな？ どんな環境・経験・感情が根っこをつくるの？</p>
-      <p style="font-size:16px; color:#5F5E5A; margin-bottom:8px;">友人関係？経験？親の言葉？いろんな仮説がある。とりあえず調べてみよう！</p>
-      <div class="keyword-cloud">      </div>
+      <p style="font-size:15px; color:#3B6D11; font-weight:700; margin-bottom:4px;">そのカギは <strong>「自己肯定感」</strong> にあるはず。</p>
+      <p style="font-size:14px; color:#5F5E5A; margin-bottom:8px;">子どもの頃にどんなことがあったのかな？ どんな環境・経験・感情が根っこをつくるの？</p>
+      <p style="font-size:15px; color:#5F5E5A; margin-bottom:8px;">友人関係？経験？親の言葉？いろんな仮説がある。とりあえず調べてみよう！</p>
+      <div class="keyword-cloud">
+        <span class="keyword highlight">親の口癖</span>
+        <span class="keyword">友人関係</span>
+        <span class="keyword highlight">修羅場経験</span>
+        <span class="keyword">得意科目</span>
+        <span class="keyword highlight">宿題の量</span>
+        <span class="keyword">旅行の回数</span>
+        <span class="keyword highlight">好きな食べ物</span>
+        <span class="keyword">利き手</span>
+        <span class="keyword highlight">殴られた回数</span>
+      </div>
     </div>
   </div>
 </div>
@@ -196,21 +246,21 @@
         <div class="step-num">1</div>
         <div>
           <h3>📚 文献確認</h3>
-          <p>どんなヒントが隠れているか？手分けして調べてみよう！。</p>
+          <p>どんなことが分かってるのかな？もっとできることってなんだろう？文献・WEBからヒントを見つける。</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div>
           <h3>🎤 インタビュー</h3>
-          <p>「やればできる」な大人の人の実体験を聞いてみたい！</p>
+          <p>いろんな人の話を聞いてみたい。子どもから大人まで、現場の声を集めて取り組みのヒントを得る。</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div>
           <h3>📊 アンケート</h3>
-          <p>「やればできる」人たちの共通点はなんだろう？</p>
+          <p>文献と経験知からアンケートを作成。企業や学校でとってみて、データから「何か」を探しあてる。</p>
         </div>
       </div>
     </div>
@@ -252,27 +302,27 @@
       <div class="role-card filled">
         <span class="role-emoji">🗡️</span>
         <div class="role-name">勇者</div>
-        <div class="role-person">いずみさん</div>
+        <div class="role-person">すえ・かっしー</div>
       </div>
       <div class="role-card filled">
         <span class="role-emoji">🛡️</span>
         <div class="role-name">戦士</div>
-        <div class="role-person">すえ<br>脳筋</div>
+        <div class="role-person">やまさん・Claude・Gemini</div>
       </div>
       <div class="role-card filled">
         <span class="role-emoji">✨</span>
         <div class="role-name">僧侶</div>
-        <div class="role-person">かっしー<br>癒し枠</div>
+        <div class="role-person">いずみさん<br>（アンケートデザイナー）</div>
       </div>
       <div class="role-card filled">
         <span class="role-emoji">📖</span>
         <div class="role-name">賢者</div>
-        <div class="role-person">募集中<br>文献・論文調査</div>
+        <div class="role-person">文献・論文調査</div>
       </div>
       <div class="role-card open">
         <span class="role-emoji">🔮</span>
         <div class="role-name">魔法使い</div>
-        <div class="role-person">やまさん<br>データサイエンティスト</div>
+        <div class="role-person">データサイエンティスト<br>募集中！</div>
       </div>
       <div class="role-card open">
         <span class="role-emoji">🎤</span>
