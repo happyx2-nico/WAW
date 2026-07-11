@@ -93,6 +93,28 @@
   .footer { background: #EAF3DE; color: #3B6D11; text-align: center; padding: 32px 16px; font-size: 14px; border-top: 4px solid #97C459; }
   .footer strong { color: #27500A; display: block; font-size: 18px; margin-bottom: 8px; font-weight: 900; }
 
+
+  /* 議事録アコーディオン */
+  .minutes-bg { background: #ffffff; padding: 48px 24px 0; }
+  .minutes-inner { max-width: 900px; margin: 0 auto; }
+  .minutes-inner .section-title { margin-bottom: 20px; }
+  .accordion { border: 2px solid #C0DD97; border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
+  .accordion-header { width: 100%; background: #EAF3DE; border: none; padding: 18px 24px; text-align: left; font-size: 16px; font-weight: 900; color: #27500A; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: inherit; }
+  .accordion-header:hover { background: #D6EFBC; }
+  .accordion-arrow { font-size: 18px; transition: transform 0.3s; display: inline-block; }
+  .accordion-header.open .accordion-arrow { transform: rotate(180deg); }
+  .accordion-body { display: none; padding: 20px 24px; background: #fff; }
+  .accordion-body.open { display: block; }
+  .minutes-topic { margin-bottom: 20px; }
+  .minutes-topic h4 { font-size: 15px; font-weight: 900; color: #3B6D11; margin-bottom: 8px; border-left: 4px solid #97C459; padding-left: 10px; }
+  .minutes-topic ul { list-style: none; padding: 0; }
+  .minutes-topic ul li { font-size: 14px; color: #444441; padding: 5px 0 5px 20px; position: relative; line-height: 1.6; }
+  .minutes-topic ul li::before { content: "・"; position: absolute; left: 0; color: #639922; }
+  .minutes-action { background: #EAF3DE; border-radius: 12px; padding: 16px 20px; margin-top: 16px; }
+  .minutes-action h4 { font-size: 15px; font-weight: 900; color: #27500A; margin-bottom: 10px; }
+  .minutes-action-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 14px; color: #333; }
+  .action-num { background: #3B6D11; color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+
   @media (max-width: 640px) {
     .compare-grid { grid-template-columns: 1fr; }
     .schedule-grid { grid-template-columns: 1fr; }
@@ -159,6 +181,57 @@
       「やればできる」という大人を増やすために、<br>
       未来を担う <strong>子どもたちに貢献したい。</strong>
     </p>
+  </div>
+</div>
+
+<!-- 議事録 -->
+<div class="minutes-bg">
+  <div class="minutes-inner">
+    <div class="section-title">📝 ミーティング議事録</div>
+
+    <div class="accordion">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>📅 第1回ミーティング｜2026年7月8日&nbsp;&nbsp;<a href="https://drive.google.com/file/d/110hFnp5W8RCMuppqFmnuddWKQzUQCUm7/view?usp=drive_link" target="_blank" onclick="event.stopPropagation()" style="font-size:13px; font-weight:700; color:#3B6D11; background:#fff; border:2px solid #97C459; border-radius:99px; padding:3px 12px; text-decoration:none;">📄 当日資料</a></span>
+        <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        <div class="minutes-topic">
+          <h4>💬 「やればできると思える」の定義について</h4>
+          <ul>
+            <li>まずこの状態を明確に定義したほうがよいのでは、という問題提起（山さん）</li>
+            <li>ICFの考え方をベースに、「明るい未来のほうから発想する」視点が有効かも</li>
+          </ul>
+        </div>
+        <div class="minutes-topic">
+          <h4>💬 どこから生まれるのか？仮説出し</h4>
+          <ul>
+            <li>子どもの頃の体験が行動を制限している場合がある。一方、周囲にすごい人がいると「自分もできるんじゃ？」という勘違いも含めた自己効力感が生まれることも（小田さん）</li>
+            <li>スポーツで「負け」を繰り返す体験があると、「失敗してもまたやればよい」という感覚が身につくのでは（山さん）</li>
+          </ul>
+        </div>
+        <div class="minutes-topic">
+          <h4>💬 探索の方向性について</h4>
+          <ul>
+            <li>いろいろなケースを出してみる（つくしさん）</li>
+            <li>すでに体系化された研究や理論をベースに考えるのも有効（フーちゃん）</li>
+            <li>まずいろいろやってみてもよい（えとちゃん）</li>
+          </ul>
+        </div>
+        <div class="minutes-action">
+          <h4>✅ ネクストアクション</h4>
+          <div class="minutes-action-item">
+            <div class="action-num">1</div>
+            <div>「やればできると思える」状態の定義を言語化する → <strong>リーダーズでまず実施</strong></div>
+          </div>
+          <div class="minutes-action-item">
+            <div class="action-num">2</div>
+            <div>自己効力感・レジリエンスなど関連する既存理論・文献を調査 → <strong>いいものがあったら共有してもらう</strong></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -345,6 +418,15 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    var body = btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+</script>
 
 <!-- フッター -->
 <div class="footer">
