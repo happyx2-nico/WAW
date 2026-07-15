@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「やればできる」を支える学術理論の相関図</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', sans-serif;
+    background: #F0F7EE;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: clamp(16px, 3vw, 22px);
+    color: #27500A;
+    margin-bottom: 6px;
+    font-weight: 900;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #639922;
+    margin-bottom: 32px;
+  }
+
+  /* ── レイアウト全体 ── */
+  .diagram {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── 中心核 ── */
+  .core-row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+
+  .core-box {
+    background: #27500A;
+    color: #EAF3DE;
+    border-radius: 20px;
+    padding: 20px 28px;
+    text-align: center;
+    width: 220px;
+    flex-shrink: 0;
+    z-index: 2;
+    box-shadow: 0 6px 24px rgba(39,80,10,0.35);
+  }
+  .core-box .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
+  .core-box h2 { font-size: 15px; font-weight: 900; line-height: 1.4; }
+  .core-box p  { font-size: 11px; margin-top: 6px; color: #C0DD97; line-height: 1.5; }
+
+  /* ── 矢印帯（上下） ── */
+  .arrow-v {
+    display: flex;
+    justify-content: center;
+    height: 48px;
+    align-items: center;
+    position: relative;
+  }
+  .arrow-v::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, #639922, #27500A);
+  }
+  .arrow-v .label {
+    background: #EAF3DE;
+    border: 2px solid #97C459;
+    border-radius: 99px;
+    padding: 3px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #27500A;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── 理論カード ── */
+  .theory-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .theory-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 14px;
+    width: 200px;
+    border: 3px solid transparent;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .theory-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+  }
+
+  /* カード色バリエーション */
+  .tc-green  { border-color: #3B6D11; }
+  .tc-blue   { border-color: #1565C0; }
+  .tc-purple { border-color: #6A1B9A; }
+  .tc-orange { border-color: #E65100; }
+  .tc-teal   { border-color: #00695C; }
+  .tc-rose   { border-color: #AD1457; }
+
+  .tc-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 2px 10px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  .bg-green  { background: #3B6D11; }
+  .bg-blue   { background: #1565C0; }
+  .bg-purple { background: #6A1B9A; }
+  .bg-orange { background: #E65100; }
+  .bg-teal   { background: #00695C; }
+  .bg-rose   { background: #AD1457; }
+
+  .theory-card .t-emoji { font-size: 24px; display: block; margin-bottom: 6px; }
+  .theory-card h3 { font-size: 13px; font-weight: 900; margin-bottom: 4px; color: #1a1a1a; }
+  .theory-card .author { font-size: 10px; color: #888; margin-bottom: 8px; }
+  .theory-card ul { padding-left: 14px; }
+  .theory-card ul li { font-size: 11px; color: #444; line-height: 1.6; }
+
+  /* ── 影響方向セクション ── */
+  .split-row {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0;
+    align-items: center;
+    margin: 8px 0;
+  }
+  .split-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .split-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 20px;
+    color: #639922;
+    font-weight: 900;
+  }
+  .split-divider span { font-size: 10px; color: #888; writing-mode: vertical-rl; letter-spacing: 2px; }
+
+  /* ── 結果カード（やればできる vs 自信のない） ── */
+  .result-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .result-card {
+    border-radius: 16px;
+    padding: 18px 16px;
+  }
+  .result-card.good { background: #EAF3DE; border: 3px solid #3B6D11; }
+  .result-card.bad  { background: #FFF3E0; border: 3px solid #E65100; }
+  .result-card h3 { font-size: 14px; font-weight: 900; margin-bottom: 10px; }
+  .result-card.good h3 { color: #27500A; }
+  .result-card.bad  h3 { color: #BF360C; }
+  .result-card ul { padding-left: 16px; }
+  .result-card ul li { font-size: 12px; line-height: 1.7; color: #333; }
+
+  /* ── 変容セクション ── */
+  .change-section {
+    background: #27500A;
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin-top: 8px;
+  }
+  .change-section h3 { color: #97C459; font-size: 15px; font-weight: 900; margin-bottom: 12px; text-align: center; }
+  .change-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .change-item {
+    background: rgba(255,255,255,0.12);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    padding: 8px 14px;
+    color: #EAF3DE;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .change-item span { display: block; font-size: 10px; color: #C0DD97; margin-top: 2px; font-weight: 400; }
+
+  /* ── 凡例 ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 28px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #444;
+  }
+  .legend-dot {
+    width: 14px; height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+
+  /* ── 学術理論一覧 ── */
+  .theory-list-section {
+    max-width: 1000px;
+    margin: 0 auto 8px;
+  }
+  .tl-title {
+    font-size: clamp(15px, 2.5vw, 20px);
+    color: #27500A;
+    font-weight: 900;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #97C459;
+  }
+  .tl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .tl-card {
+    background: #fff;
+    border-radius: 14px;
+    border-left: 5px solid #ccc;
+    padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .tl-badge {
+    display: inline-block;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 2px 10px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+  }
+  .tl-name {
+    font-size: 14px;
+    font-weight: 900;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+    line-height: 1.4;
+  }
+  .tl-name span {
+    font-size: 11px;
+    color: #888;
+    font-weight: 400;
+  }
+  .tl-author {
+    font-size: 11px;
+    color: #639922;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tl-desc {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.7;
+  }
+
+
+  
+
+
+  /* ── 区切り線・リンクセクション ── */
+  .section-divider {
+    border: none;
+    border-top: 4px solid #3B6D11;
+    margin: 40px auto;
+    max-width: 1000px;
+  }
+  .link-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 16px 48px;
+  }
+  .link-section h2 {
+    font-size: 18px;
+    font-weight: 900;
+    color: #27500A;
+    margin-bottom: 20px;
+  }
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border: 2px solid #C0DD97;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .link-card:hover {
+    border-color: #3B6D11;
+    box-shadow: 0 4px 16px rgba(59,109,17,0.15);
+  }
+  .link-card-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .link-card-body {}
+  .link-card-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: #27500A;
+    margin-bottom: 3px;
+  }
+  .link-card-url {
+    font-size: 11px;
+    color: #888;
+    word-break: break-all;
+  }
+
+  @media (max-width: 640px) {
+    .theory-row { gap: 10px; }
+    .theory-card { width: 160px; padding: 12px 10px; }
+    .split-row { grid-template-columns: 1fr; }
+    .split-divider { display: none; }
+    .result-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+
+  <!-- ── 学術理論一覧 ── -->
+  <div class="theory-list-section">
+    <h2 class="tl-title">📚 やればできるに関係していそうな学術理論一覧</h2>
+    <div class="tl-grid">
+
+      <div class="tl-card" style="border-color:#E65100">
+        <div class="tl-badge" style="background:#E65100">根っこ</div>
+        <div class="tl-name">愛着理論<br><span>Attachment Theory</span></div>
+        <div class="tl-author">ジョン・ボウルビィ（1969）</div>
+        <div class="tl-desc">乳幼児期の養育者との安定した絆が、生涯にわたる安心感・自己肯定感の土台を形成するという理論。「安全基地」があると新しいことへの挑戦が促される。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#3B6D11">
+        <div class="tl-badge" style="background:#3B6D11">中核①</div>
+        <div class="tl-name">自己効力感理論<br><span>Self-Efficacy Theory</span></div>
+        <div class="tl-author">アルバート・バンデューラ（1977）</div>
+        <div class="tl-desc">「ある課題を自分はできる」という特定の自信のこと。①直接的達成経験 ②代理的経験 ③言語的説得 ④生理的・情動的状態 の4つの情報源で形成される。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#1565C0">
+        <div class="tl-badge" style="background:#1565C0">中核②</div>
+        <div class="tl-name">マインドセット理論<br><span>Mindset Theory</span></div>
+        <div class="tl-author">キャロル・ドゥエック（1970年代〜）</div>
+        <div class="tl-desc">能力は「生まれつき固定（固定マインドセット）」か「努力で伸びる（成長マインドセット）」かという信念の違いが、挑戦・失敗への反応を大きく左右する。褒め方・言葉がけが分岐点になる。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#00695C">
+        <div class="tl-badge" style="background:#00695C">中核③</div>
+        <div class="tl-name">自己肯定感<br><span>Self-Esteem</span></div>
+        <div class="tl-author">自己概念研究（複数の研究者）</div>
+        <div class="tl-desc">「自分という存在そのものに価値がある」という感覚。自己効力感（できる）とは異なり存在レベルの肯定。日本の若者は内閣府調査で7か国中最低水準（45.1%）。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#6A1B9A">
+        <div class="tl-badge" style="background:#6A1B9A">中核④</div>
+        <div class="tl-name">帰属理論<br><span>Attribution Theory</span></div>
+        <div class="tl-author">バーナード・ワイナー（1972）</div>
+        <div class="tl-desc">成功・失敗の原因をどこに帰属させるかの傾向。「成功→自分の努力、失敗→状況のせい」（楽観的）vs「成功→運、失敗→自分の能力のせい」（悲観的）で自信の形成が大きく異なる。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#BF360C">
+        <div class="tl-badge" style="background:#BF360C">悪化要因①</div>
+        <div class="tl-name">学習性無力感<br><span>Learned Helplessness</span></div>
+        <div class="tl-author">マーティン・セリグマン（1967）</div>
+        <div class="tl-desc">長期間にわたり回避できないストレスに置かれると「何をやっても無駄」という認知が学習され、逃れようとする努力すら放棄してしまう現象。うつ病のモデルとも関連する。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#AD1457">
+        <div class="tl-badge" style="background:#AD1457">悪化要因②</div>
+        <div class="tl-name">インポスター症候群<br><span>Impostor Syndrome</span></div>
+        <div class="tl-author">クランス＆アイムス（1978）</div>
+        <div class="tl-desc">客観的に実績があっても「自分はそれに値しない」「いつかバレる」と感じてしまう心理状態。成功を運や他者のおかげと帰属させ、自己評価が実態より大幅に低くなる。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#2E7D32">
+        <div class="tl-badge" style="background:#2E7D32">変容①</div>
+        <div class="tl-name">レジリエンス<br><span>Resilience</span></div>
+        <div class="tl-author">複数の研究者（Orth &amp; Robins ほか）</div>
+        <div class="tl-desc">逆境・困難・失敗から回復する力。自己肯定感が高いほどレジリエンスも高まる保護要因とされる。幼少期の遊び・失敗体験の積み重ねが土台になる。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#00838F">
+        <div class="tl-badge" style="background:#00838F">変容②</div>
+        <div class="tl-name">自己決定理論<br><span>Self-Determination Theory</span></div>
+        <div class="tl-author">デシ＆ライアン（1985）</div>
+        <div class="tl-desc">人間の内発的動機づけには「自律性・有能感・関係性」の3つの基本的心理欲求が必要とする理論。過保護・管理的な環境はこれを阻害し、自己効力感の低下につながる。</div>
+      </div>
+
+      <div class="tl-card" style="border-color:#455A64">
+        <div class="tl-badge" style="background:#455A64">変容③</div>
+        <div class="tl-name">心理的安全性<br><span>Psychological Safety</span></div>
+        <div class="tl-author">エドモンドソン（1999）</div>
+        <div class="tl-desc">チームや組織の中で、失敗・意見・疑問を表明しても責められないという安心感。Googleのプロジェクト・アリストテレスでも高パフォーマンスチームの最重要因子として確認された。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="height:32px"></div>
+
+<hr class="section-divider">
+<h1>「やればできる」を支える学術理論の相関図</h1>
+<p class="subtitle">各理論がどのようにつながり、自信の有無を生み出すかを示す</p>
+
+<div class="diagram">
+
+  <!-- ① 根っこ（幼少期） -->
+  <div class="theory-row">
+    <div class="theory-card tc-orange">
+      <span class="tc-badge bg-orange">根っこ①</span>
+      <span class="t-emoji">👶</span>
+      <h3>愛着理論</h3>
+      <div class="author">ボウルビィ</div>
+      <ul>
+        <li>乳幼児期の親との安定した愛着が「存在してよい」という感覚を育む</li>
+        <li>安全基地があると新しいことに挑戦できる</li>
+      </ul>
+    </div>
+    <div class="theory-card tc-orange">
+      <span class="tc-badge bg-orange">根っこ②</span>
+      <span class="t-emoji">🏠</span>
+      <h3>家庭環境・言葉がけ</h3>
+      <div class="author">発達心理学的知見</div>
+      <ul>
+        <li>「頑張ったね」（プロセス称賛）→ 成長マインドセット</li>
+        <li>「できない子だ」（能力否定）→ 固定マインドセット</li>
+        <li>親自身の自己肯定感が子に伝わる</li>
+      </ul>
+    </div>
+    <div class="theory-card tc-orange">
+      <span class="tc-badge bg-orange">根っこ③</span>
+      <span class="t-emoji">🎮</span>
+      <h3>遊び・失敗体験</h3>
+      <div class="author">レジリエンス研究</div>
+      <ul>
+        <li>試行錯誤の繰り返しが「失敗してもまたやればいい」感覚を育む</li>
+        <li>自由な遊びがレジリエンスの土台になる</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="arrow-v"><div class="label">↓ 成長過程で形成される ↓</div></div>
+
+  <!-- ② 中核理論 -->
+  <div class="theory-row">
+    <div class="theory-card tc-green">
+      <span class="tc-badge bg-green">中核①</span>
+      <span class="t-emoji">💪</span>
+      <h3>自己効力感理論</h3>
+      <div class="author">バンデューラ（1977）</div>
+      <ul>
+        <li>成功体験・代理経験・言語的説得・情動状態の4つで形成</li>
+        <li>「この課題なら自分はできる」という特定の自信</li>
+      </ul>
+    </div>
+    <div class="theory-card tc-blue">
+      <span class="tc-badge bg-blue">中核②</span>
+      <span class="t-emoji">🧠</span>
+      <h3>成長 vs 固定<br>マインドセット</h3>
+      <div class="author">ドゥエック（1970年代〜）</div>
+      <ul>
+        <li>能力は伸びる（成長）か固定か（固定）の信念の違い</li>
+        <li>褒め方・言葉がけで分岐する</li>
+      </ul>
+    </div>
+    <div class="theory-card tc-teal">
+      <span class="tc-badge bg-teal">中核③</span>
+      <span class="t-emoji">🌱</span>
+      <h3>自己肯定感</h3>
+      <div class="author">自己概念研究</div>
+      <ul>
+        <li>「存在そのものに価値がある」という感覚</li>
+        <li>自己効力感・レジリエンスの土台になる</li>
+        <li>日本の若者は国際比較で最低水準</li>
+      </ul>
+    </div>
+    <div class="theory-card tc-purple">
+      <span class="tc-badge bg-purple">中核④</span>
+      <span class="t-emoji">🎯</span>
+      <h3>帰属理論</h3>
+      <div class="author">ワイナー</div>
+      <ul>
+        <li>成功→自分のおかげ、失敗→状況のせい（楽観的）</li>
+        <li>成功→運のおかげ、失敗→自分のせい（悲観的）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="arrow-v"><div class="label">↓ 積み重なって現れる状態 ↓</div></div>
+
+  <!-- ③ 結果として現れる状態 -->
+  <div class="result-row">
+    <div class="result-card good">
+      <h3>😊 「やればできる」と思える人</h3>
+      <ul>
+        <li>高い自己効力感 × 成長マインドセット</li>
+        <li>失敗を「学びのプロセス」と解釈</li>
+        <li>成功を「自分の努力のおかげ」と帰属</li>
+        <li>挑戦を選び、粘り強く継続できる</li>
+        <li>困難を脅威でなく課題として捉える</li>
+      </ul>
+    </div>
+    <div class="result-card bad">
+      <h3>😞 やれる自信を持てない人</h3>
+      <ul>
+        <li>学習性無力感（セリグマン）：「何をやっても無駄」が学習される</li>
+        <li>固定マインドセット：失敗＝能力の限界と解釈</li>
+        <li>インポスター症候群：できているのに「いつかバレる」と怯える</li>
+        <li>悲観的帰属：成功は運、失敗は自分のせい</li>
+        <li>回避・先延ばし・諦めの悪循環に入る</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="arrow-v"><div class="label">↕ 相互に影響しあう ↕</div></div>
+
+  <!-- ④ 強化・悪化ループ -->
+  <div class="theory-row">
+    <div class="theory-card tc-green" style="width:290px">
+      <span class="tc-badge bg-green">強化ループ</span>
+      <span class="t-emoji">🔄</span>
+      <h3>ポジティブスパイラル</h3>
+      <div class="author">自己効力感理論 × レジリエンス</div>
+      <ul>
+        <li>挑戦する → 成功体験が積まれる → 自己効力感UP → さらに挑戦する</li>
+        <li>失敗しても「次はこうしよう」と学習できる</li>
+        <li>心理的安全性のある環境が循環を加速させる</li>
+      </ul>
+    </div>
+    <div class="theory-card tc-rose" style="width:290px">
+      <span class="tc-badge bg-rose">悪化ループ</span>
+      <span class="t-emoji">🌀</span>
+      <h3>ネガティブスパイラル</h3>
+      <div class="author">学習性無力感 × インポスター症候群</div>
+      <ul>
+        <li>回避する → 成功体験が積まれない → 自己効力感DOWN → さらに回避する</li>
+        <li>失敗を「自分の能力のせい」と帰属し固定化される</li>
+        <li>周囲の否定的環境が循環を加速させる</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="arrow-v"><div class="label">↓ 変容のカギ ↓</div></div>
+
+  <!-- ⑤ 変容のカギ -->
+  <div class="change-section">
+    <h3>🔑 「やればできる」に変わるための介入ポイント</h3>
+    <div class="change-items">
+      <div class="change-item">
+        小さな成功体験を積む
+        <span>バンデューラ：直接的達成経験</span>
+      </div>
+      <div class="change-item">
+        プロセスを褒める
+        <span>ドゥエック：成長マインドセット育成</span>
+      </div>
+      <div class="change-item">
+        失敗を意味づけ直す
+        <span>リフレーミング・認知行動療法</span>
+      </div>
+      <div class="change-item">
+        近いロールモデルを見る
+        <span>バンデューラ：代理的経験</span>
+      </div>
+      <div class="change-item">
+        心理的安全性のある環境
+        <span>組織心理学：エドモンドソン</span>
+      </div>
+      <div class="change-item">
+        信頼できる他者の存在
+        <span>愛着理論：安全基地</span>
+      </div>
+      <div class="change-item">
+        1on1・コーチング
+        <span>言語的説得 × 内省促進</span>
+      </div>
+      <div class="change-item">
+        メタ認知の向上
+        <span>思い込みへの気づき</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 凡例 -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#E65100"></div>根っこ（幼少期）</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div>自己効力感理論</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1565C0"></div>マインドセット理論</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00695C"></div>自己肯定感</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6A1B9A"></div>帰属理論</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#AD1457"></div>悪化ループ</div>
+  </div>
+
+</div>
+
+<hr class="section-divider">
+<div class="link-section">
+  <h2>📎 関連資料</h2>
+  <a class="link-card" href="https://docs.google.com/spreadsheets/d/1_wyBjxf7lTDpYMI5AhvoPcbniyif7t9E/edit?usp=drive_link&ouid=102747019034525856102&rtpof=true&sd=true" target="_blank">
+    <span class="link-card-icon">📊</span>
+    <div class="link-card-body">
+      <div class="link-card-title">「やればできる」パラメータ一覧</div>
+      <div class="link-card-url">https://docs.google.com/spreadsheets/d/1_wyBjxf7lTDpYMI5AhvoPcbniyif7t9E/</div>
+    </div>
+  </a>
+  <a class="link-card" href="https://docs.google.com/spreadsheets/d/1JC2oGjA0_QknTXwkgwrbdqVeHRn5vWT6/edit?usp=drive_link&ouid=102747019034525856102&rtpof=true&sd=true" target="_blank">
+    <span class="link-card-icon">👥</span>
+    <div class="link-card-body">
+      <div class="link-card-title">「やればできる」そうなペルソナ60人</div>
+      <div class="link-card-url">https://docs.google.com/spreadsheets/d/1JC2oGjA0_QknTXwkgwrbdqVeHRn5vWT6/</div>
+    </div>
+  </a>
+</div>
+
+</body>
+</html>
