@@ -348,6 +348,84 @@
     word-break: break-all;
   }
 
+
+  /* ── プロンプトアコーディオン ── */
+  .prompt-section {
+    max-width: 1000px;
+    margin: 0 auto 8px;
+    padding: 0 16px;
+  }
+  .prompt-accordion {
+    border: 2px solid #C0DD97;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .prompt-accordion-header {
+    width: 100%;
+    background: #EAF3DE;
+    border: none;
+    padding: 16px 24px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 900;
+    color: #27500A;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', sans-serif;
+  }
+  .prompt-accordion-header:hover { background: #D6EFBC; }
+  .prompt-accordion-arrow {
+    font-size: 16px;
+    transition: transform 0.3s;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .prompt-accordion-header.open .prompt-accordion-arrow { transform: rotate(180deg); }
+  .prompt-accordion-body {
+    display: none;
+    background: #fff;
+    padding: 20px 24px;
+  }
+  .prompt-accordion-body.open { display: block; }
+  .prompt-box {
+    background: #1e1e2e;
+    border-radius: 12px;
+    padding: 20px 24px;
+    position: relative;
+  }
+  .prompt-copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #3B6D11;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .prompt-copy-btn:hover { background: #27500A; }
+  .prompt-text {
+    color: #EAF3DE;
+    font-size: 12px;
+    line-height: 1.9;
+    white-space: pre-wrap;
+    font-family: 'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', sans-serif;
+    margin: 0;
+  }
+  .prompt-note {
+    font-size: 12px;
+    color: #5F5E5A;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
   @media (max-width: 640px) {
     .theory-row { gap: 10px; }
     .theory-card { width: 160px; padding: 12px 10px; }
@@ -361,8 +439,60 @@
 
 
   <!-- ── 学術理論一覧 ── -->
-  <div class="theory-list-section">
+  
+<div class="theory-list-section">
     <h2 class="tl-title">📚 やればできるに関係していそうな学術理論一覧</h2>
+
+    <div class="prompt-accordion">
+      <button class="prompt-accordion-header" onclick="togglePrompt(this)">
+        🤖 調査に使ったプロンプト
+        <span class="prompt-accordion-arrow">▼</span>
+      </button>
+      <div class="prompt-accordion-body">
+        <div class="prompt-box">
+          <button class="prompt-copy-btn" onclick="copyPrompt()">📋 コピー</button>
+          <pre class="prompt-text" id="promptText">以下のテーマについて、学術的な観点から体系的に調査・考察してください。
+
+【テーマ】
+「やればできる」と思える人と、やれる自信を持てない人の違い
+——自己肯定感・成長マインドセットを中心とした学術的考察——
+
+【調査してほしい内容】
+1. 自己効力感（Self-efficacy）
+- バンデューラの自己効力感理論の概要
+- 自己効力感が高い人・低い人の行動・思考パターンの違い
+- 自己効力感はどのように形成されるか（4つの情報源）
+
+2. 成長マインドセット vs 固定マインドセット
+- キャロル・ドゥエックの研究概要
+- 「やればできる」と思える人の思考パターン
+- 子どもの頃の経験・環境・言葉がけがマインドセットに与える影響
+
+3. 自己肯定感
+- 自己肯定感と自己効力感の違いと関係性
+- 日本における自己肯定感の研究・実態（国際比較があれば）
+- 自己肯定感が形成される時期と要因
+
+4. 成長過程における違い
+- 親の関わり方（言葉がけ・褒め方・叱り方）の影響
+- 学校・友人関係・成功／失敗体験の影響
+- 「負け」「失敗」体験がレジリエンス（回復力）に与える影響
+- どの時期（幼少期・思春期など）が特に形成に影響するか
+
+5. 大人になってからの変容可能性
+- 固定化されたマインドセットや自己肯定感は変えられるか
+- 効果が確認されている介入・アプローチの例
+
+【出力形式】
+- 各項目について、研究者名・理論名・出典があれば明記してください
+- 専門用語には簡単な説明を添えてください
+- 最後に「現場への示唆」として、職場や教育現場で活用できるポイントをまとめてください
+- 全体を通じて、「子どもの頃の体験が大人になってからの自信にどうつながるか」という視点を意識してください</pre>
+        </div>
+        <p class="prompt-note">💡 このプロンプトをClaude・ChatGPTなどのAIにそのまま貼り付けると、学術的な調査・考察を依頼できます。</p>
+      </div>
+    </div>
+
     <div class="tl-grid">
 
       <div class="tl-card" style="border-color:#E65100">
@@ -645,14 +775,22 @@
       <div class="link-card-url">https://docs.google.com/spreadsheets/d/1_wyBjxf7lTDpYMI5AhvoPcbniyif7t9E/</div>
     </div>
   </a>
-  <a class="link-card" href="https://docs.google.com/spreadsheets/d/1JC2oGjA0_QknTXwkgwrbdqVeHRn5vWT6/edit?usp=drive_link&ouid=102747019034525856102&rtpof=true&sd=true" target="_blank">
-    <span class="link-card-icon">👥</span>
-    <div class="link-card-body">
-      <div class="link-card-title">「やればできる」そうなペルソナ60人</div>
-      <div class="link-card-url">https://docs.google.com/spreadsheets/d/1JC2oGjA0_QknTXwkgwrbdqVeHRn5vWT6/</div>
-    </div>
-  </a>
+
 </div>
 
+<script>
+  function togglePrompt(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+  function copyPrompt() {
+    var text = document.getElementById('promptText').innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      var btn = document.querySelector('.prompt-copy-btn');
+      btn.textContent = '✅ コピーしました';
+      setTimeout(function() { btn.textContent = '📋 コピー'; }, 2000);
+    });
+  }
+</script>
 </body>
 </html>
